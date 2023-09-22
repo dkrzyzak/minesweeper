@@ -17,8 +17,8 @@
    "
 	>
 		{#each grid as row}
-			{#each row as { x, y, hasBomb }}
-				<Block label={hasBomb ? 'b' : `${x} ${y}`} />
+			{#each row as { x, y, hasBomb, bombsAround }}
+				<Block {hasBomb} {bombsAround} />
 			{/each}
 		{/each}
 	</div>
