@@ -4,8 +4,15 @@
 
 	const xSize = 10;
 	const ySize = 10;
+	const bombsCount = 25;
+	let gridChangeIndex = 0; // to force re-render on each grid change
 
-	const grid = generateBoard(xSize, ySize, 10);
+	let grid = generateBoard(xSize, ySize, bombsCount);
+
+	const onGetNewGrid = () => {
+		gridChangeIndex += 1;
+		grid = generateBoard(xSize, ySize, bombsCount);
+	};
 </script>
 
 <section>
@@ -16,12 +23,16 @@
    grid-template-rows: repeat({xSize}, 50px);
    "
 	>
-		{#each grid as row}
-			{#each row as { x, y, hasBomb, bombsAround }}
-				<Block {hasBomb} {bombsAround} />
+		{#key gridChangeIndex}
+			{#each grid as row}
+				{#each row as { x, y, hasBomb, bombsAround }}
+					<Block {hasBomb} {bombsAround} />
+				{/each}
 			{/each}
-		{/each}
+		{/key}
 	</div>
+
+	<button on:click={onGetNewGrid}>Nowy Board</button>
 </section>
 
 <style>
