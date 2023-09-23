@@ -33,6 +33,7 @@
    border-width: {isExposed ? '2px' : '6px'}
    "
 	class:active={!disabled}
+	class:explode-animated={hasBomb && isExposed}
 	on:contextmenu|preventDefault={onRightClick}
 	on:click={disabled ? null : onLeftClick}
 >
@@ -79,5 +80,24 @@
 
 	button img {
 		width: 100%;
+	}
+
+	.explode-animated {
+		animation-duration: 500ms;
+		animation-name: explode;
+	}
+
+	@keyframes explode {
+		0% {
+			filter: drop-shadow(0 0 30px #444444);
+		}
+
+		20% {
+			filter: drop-shadow(0 0 30px #ff3e00aa);
+		}
+
+		100% {
+			filter: drop-shadow(0 0 0 #444444);
+		}
 	}
 </style>
