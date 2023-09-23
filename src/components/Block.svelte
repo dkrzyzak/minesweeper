@@ -1,31 +1,26 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import { getBlockFontColor } from '../utils/visualUtils';
 	import flagImage from '../assets/flag.png';
-	import bombImage from '../assets/bomb.png';
+	import bombImage from '../assets/bomb2.png';
 
-	export let size: 's' | 'm' | 'l' = 'm';
+	const dispatch = createEventDispatcher();
 
-	const pixelSize = size === 's' ? 40 : 50;
+	const pixelSize = 50;
 	export let hasBomb = false;
 	export let bombsAround = 0;
-
-	// TODO: przekazywać jako prop?
-	let isExposed = false;
-	let isFlagged = false;
-
-	$: disabled = isFlagged || isExposed;
-
-	const onRightClick = () => {
-		if (isExposed) {
-			return;
-		}
-
-		isFlagged = !isFlagged;
-	};
+	export let isExposed = false;
+	export let isFlagged = false;
 
 	const onLeftClick = () => {
-		isExposed = true;
+		dispatch('leftClick');
 	};
+
+	const onRightClick = () => {
+		dispatch('rightClick');
+	};
+
+	$: disabled = isFlagged || isExposed;
 
 	$: fontColor = getBlockFontColor(bombsAround);
 </script>
@@ -54,6 +49,9 @@
 
 <style>
 	button {
+		display: grid;
+		place-items: center;
+
 		/* font-family: 'Arcade Classic'; */
 		/* font-family: 'PC Senior'; */
 		/* font-family: 'Rexlia'; */

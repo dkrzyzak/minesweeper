@@ -1,9 +1,4 @@
-interface Block {
-	x: number;
-	y: number;
-	hasBomb: boolean;
-	bombsAround?: number;
-}
+import { neighborsVector, type Block } from './constants';
 
 export const generateBoard = (xSize: number, ySize: number, bombsCount: number) => {
 	if (xSize < 1 || ySize < 1) {
@@ -12,6 +7,7 @@ export const generateBoard = (xSize: number, ySize: number, bombsCount: number) 
 
 	const area = xSize * ySize;
 	if (bombsCount > area) {
+		// TODO: uspójnić mechanizm errorów lub się go pozbyć
 		throw new TooMuchBombsError();
 	}
 
@@ -19,12 +15,14 @@ export const generateBoard = (xSize: number, ySize: number, bombsCount: number) 
 	const board: Block[][] = [];
 
 	for (let x = 0; x < xSize; x++) {
-		const rowArray = [];
+		const rowArray: Block[] = [];
 		for (let y = 0; y < ySize; y++) {
 			rowArray.push({
 				x,
 				y,
 				hasBomb: false,
+				isExposed: false,
+				isFlagged: false,
 			});
 		}
 
@@ -44,26 +42,18 @@ export const generateBoard = (xSize: number, ySize: number, bombsCount: number) 
 	}
 
 	// create labels for blocks (how many bombs are around each of them)
-	const checkVector = [
-		{ x: -1, y: -1 },
-		{ x: -1, y: 0 },
-		{ x: -1, y: 1 },
-		{ x: 0, y: -1 },
-		{ x: 0, y: 1 },
-		{ x: 1, y: -1 },
-		{ x: 1, y: 0 },
-		{ x: 1, y: 1 },
-	];
 
 	for (let x = 0; x < xSize; x++) {
 		for (let y = 0; y < ySize; y++) {
+			// skip checking if block has bomb
 			if (board[x][y].hasBomb) {
 				continue;
 			}
 
 			let bombsAround = 0;
 
-			checkVector.forEach((vector) => {
+			neighborsVector.forEach((vector) => {
+				// try block to prevent error if index is out of range
 				try {
 					if (board[x + vector.x][y + vector.y].hasBomb) {
 						bombsAround++;
