@@ -17,7 +17,10 @@
 <div
 	role="dialog"
 	class="modal-overlay"
-	style="transform: translateY({isOpen ? '0' : '-100vh'});"
+	style="
+   transform: translateY({isOpen ? '0' : '-100vh'});
+   transition-timing-function: {isOpen ? 'ease-in' : 'ease-out'}
+   "
 	on:click|self={onCloseModal}
 >
 	<div class="modal-wrapper" style="opacity: {isOpen ? '1' : '0'}">
@@ -47,7 +50,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		transition: transform 100ms ease-out;
+		transition: transform 200ms ease-out;
 	}
 
 	.modal-wrapper {
