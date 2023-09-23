@@ -3,6 +3,7 @@
 	import { generateBoard } from '../utils/generateBoard';
 	import type { Block } from '../utils/constants';
 	import { exposeNeighbors } from '../utils/exposeNeighbors';
+	import { mousePressedOnGrid } from '../stores/mousePressedStore';
 
 	const xSize = 10;
 	const ySize = 10;
@@ -17,14 +18,12 @@
 	};
 
 	const handleLeftClick = (block: Block) => {
-		console.log('handle left click', block);
+		// console.log('handle left click', block);
 		if (block.isFlagged) {
 			return;
 		}
 
 		grid[block.x][block.y].isExposed = true;
-
-		console.log('got exposed');
 
 		if (block.hasBomb) {
 			console.log('game over');
@@ -43,9 +42,25 @@
 
 		grid[block.x][block.y].isFlagged = !block.isFlagged;
 	};
+
+	// -- LOGIC FOR SUN EMOJI --
+	const mousedownHandler = (event: MouseEvent) => {
+		const isClickable = (event.target as HTMLElement).dataset.disabled === 'false';
+		if (isClickable) {
+			mousePressedOnGrid.set(true);
+		}
+	};
+
+	const mouseupHandler = () => {
+		// its better to leave it without any condition :)
+		mousePressedOnGrid.set(false);
+	};
+
+	// -- END LOGIC FOR SUN EMOJI --
 </script>
 
-<section>
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<section on:mousedown={mousedownHandler} on:mouseup={mouseupHandler}>
 	<div
 		class="board"
 		style="

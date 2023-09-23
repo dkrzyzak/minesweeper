@@ -11,6 +11,7 @@
 <button
 	{style}
 	class:active={!disabled}
+	data-disabled={disabled}
 	class:explode-animated={animateExplosion}
 	on:contextmenu|preventDefault={onRightClick}
 	on:click={disabled ? null : onLeftClick}
