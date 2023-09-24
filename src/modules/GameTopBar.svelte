@@ -1,11 +1,15 @@
 <script lang="ts">
+	import { gameTime } from './../stores/gameTimeStore';
+	import AnalogDisplay from '../components/AnalogDisplay.svelte';
 	import SunButton from '../components/SunButton.svelte';
+
+	$: gameTimeFormatted = String($gameTime).padStart(3, '0');
 </script>
 
 <section class="game-top-bar">
-	<p>ile bomb zostało</p>
+	<AnalogDisplay displayValue="010" />
 	<SunButton />
-	<p>czas jaki upłynął</p>
+	<AnalogDisplay displayValue={gameTimeFormatted} />
 </section>
 
 <style>

@@ -2,7 +2,6 @@
 	import Modal from '../components/Modal.svelte';
 	import GameTopBar from './GameTopBar.svelte';
 	import Grid from './Grid.svelte';
-	import NewGameModal from './NewGameModal.svelte';
 	let isModalOpen = false;
 </script>
 

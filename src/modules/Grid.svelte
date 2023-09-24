@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { gameStatus } from './../stores/gameStatusStore';
 	import BlockComponent from '../components/Block.svelte';
 	import { generateBoard } from '../utils/generateBoard';
 	import type { Block } from '../utils/constants';
@@ -18,6 +19,10 @@
 	};
 
 	const handleLeftClick = (block: Block) => {
+		if ($gameStatus === 'before') {
+			gameStatus.set('during');
+		}
+
 		// console.log('handle left click', block);
 		if (block.isFlagged) {
 			return;
@@ -27,6 +32,7 @@
 
 		if (block.hasBomb) {
 			console.log('game over');
+			gameStatus.set('lost');
 		}
 
 		if (block.bombsAround === 0) {
