@@ -1,4 +1,4 @@
-import { neighborsVector, type Block } from './constants';
+import { neighborsVector, type Block } from '../utils/constants';
 
 export const generateBoard = (xSize: number, ySize: number, bombsCount: number) => {
 	if (xSize < 1 || ySize < 1) {

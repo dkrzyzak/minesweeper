@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from './Button.svelte';
 
-	import NewGameModal from '../modules/NewGameModal.svelte';
+	import NewGameModal from '../modules/modals/NewGameModal.svelte';
 	import SunImage from './SunImage.svelte';
 
 	let isNewGameModalOpened = false;

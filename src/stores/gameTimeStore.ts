@@ -26,7 +26,12 @@ gameStatus.subscribe((status) => {
 		startTimer();
 	}
 
-	if (status === 'won' || status === 'lost') {
+	if (status === 'before') {
+		stopTimer();
+		gameTime.set(0);
+	}
+
+	if (status === 'before' || status === 'won' || status === 'lost') {
 		stopTimer();
 	}
 });

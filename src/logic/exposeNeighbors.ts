@@ -1,4 +1,4 @@
-import { type Block, directNeighborsVector } from './constants';
+import { type Block, neighborsVector } from '../utils/constants';
 
 interface Coords {
 	x: number;
@@ -6,7 +6,7 @@ interface Coords {
 }
 
 const getNeighbors = (point: Coords) => {
-	const neighbors: Coords[] = directNeighborsVector.map((vector) => ({
+	const neighbors: Coords[] = neighborsVector.map((vector) => ({
 		x: point.x + vector.x,
 		y: point.y + vector.y,
 	}));
@@ -19,9 +19,10 @@ const wasVisited = (point: Coords, visitedArray: Coords[]) =>
 		(visitedBlock) => visitedBlock.x === point.x && visitedBlock.y === point.y
 	);
 
-export const exposeNeighbors = (emptyBlock: Block, grid: Block[][]) => {
+export const exposeNeighbors = (emptyBlock: Block, grid: Block[][]): number => {
 	const visitedBlocks: Coords[] = [{ x: emptyBlock.x, y: emptyBlock.y }];
 	const queuedBlocks: Coords[] = getNeighbors(emptyBlock);
+	let exposedNeighbors = 0;
 
 	while (queuedBlocks.length > 0) {
 		const neighborBlock = queuedBlocks.pop()!;
@@ -33,7 +34,10 @@ export const exposeNeighbors = (emptyBlock: Block, grid: Block[][]) => {
 		// try-catch block to prevent error when X or Y index is out of range
 		try {
 			// we expose every point that made its way to queuedBlocks and exists on the board
-			grid[neighborBlock.x][neighborBlock.y].isExposed = true;
+			if (grid[neighborBlock.x][neighborBlock.y].isExposed === false) {
+				grid[neighborBlock.x][neighborBlock.y].isExposed = true;
+				exposedNeighbors++;
+			}
 			visitedBlocks.push(neighborBlock);
 		} catch {
 			continue;
@@ -50,4 +54,6 @@ export const exposeNeighbors = (emptyBlock: Block, grid: Block[][]) => {
 			});
 		}
 	}
+
+	return exposedNeighbors;
 };

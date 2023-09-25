@@ -1,53 +1,15 @@
 <script lang="ts">
-	import { gameStatus } from './../stores/gameStatusStore';
 	import BlockComponent from '../components/Block.svelte';
-	import { generateBoard } from '../utils/generateBoard';
-	import type { Block } from '../utils/constants';
-	import { exposeNeighbors } from '../utils/exposeNeighbors';
 	import { mousePressedOnGrid } from '../stores/mousePressedStore';
+	import {
+		grid,
+		gridInstanceId,
+		gridSize,
+		handleLeftClick,
+		handleRightClick,
+	} from '../stores/gameGridStore';
 
-	const xSize = 10;
-	const ySize = 10;
-	const bombsCount = 10;
-	let gridChangeIndex = 0; // to force re-render on each grid change
-
-	let grid = generateBoard(xSize, ySize, bombsCount);
-
-	const onGetNewGrid = () => {
-		gridChangeIndex += 1;
-		grid = generateBoard(xSize, ySize, bombsCount);
-	};
-
-	const handleLeftClick = (block: Block) => {
-		if ($gameStatus === 'before') {
-			gameStatus.set('during');
-		}
-
-		// console.log('handle left click', block);
-		if (block.isFlagged) {
-			return;
-		}
-
-		grid[block.x][block.y].isExposed = true;
-
-		if (block.hasBomb) {
-			console.log('game over');
-			gameStatus.set('lost');
-		}
-
-		if (block.bombsAround === 0) {
-			exposeNeighbors(block, grid);
-			// expose all neighbors with 0 bombs around
-		}
-	};
-
-	const handleRightClick = (block: Block) => {
-		if (block.isExposed) {
-			return;
-		}
-
-		grid[block.x][block.y].isFlagged = !block.isFlagged;
-	};
+	$: [xSize, ySize] = $gridSize;
 
 	// -- LOGIC FOR SUN EMOJI --
 	const mousedownHandler = (event: MouseEvent) => {
@@ -74,8 +36,8 @@
    grid-template-rows: repeat({xSize}, 50px);
    "
 	>
-		{#key gridChangeIndex}
-			{#each grid as row}
+		{#key $gridInstanceId}
+			{#each $grid as row}
 				{#each row as block}
 					<BlockComponent
 						hasBomb={block.hasBomb}
@@ -89,8 +51,6 @@
 			{/each}
 		{/key}
 	</div>
-
-	<button on:click={onGetNewGrid}>Nowy Board</button>
 </section>
 
 <style>

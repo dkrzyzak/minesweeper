@@ -2,12 +2,14 @@
 	import { gameTime } from './../stores/gameTimeStore';
 	import AnalogDisplay from '../components/AnalogDisplay.svelte';
 	import SunButton from '../components/SunButton.svelte';
+	import { remainingFlags } from '../stores/remainingFlagsStore';
 
 	$: gameTimeFormatted = String($gameTime).padStart(3, '0');
+	$: remainingFlagsFormatted = String($remainingFlags).padStart(3, '0');
 </script>
 
 <section class="game-top-bar">
-	<AnalogDisplay displayValue="010" />
+	<AnalogDisplay displayValue={remainingFlagsFormatted} />
 	<SunButton />
 	<AnalogDisplay displayValue={gameTimeFormatted} />
 </section>

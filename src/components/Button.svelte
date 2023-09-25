@@ -48,6 +48,7 @@
 
 	:global(.button-img-full-width) {
 		width: 100%;
+		padding: 5px;
 	}
 
 	.explode-animated {
