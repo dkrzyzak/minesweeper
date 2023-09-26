@@ -7,12 +7,12 @@ export interface Block {
 	isFlagged: boolean;
 }
 
-export interface Coords {
+export interface Point {
 	x: number;
 	y: number;
 }
 
-export const neighborsVector: Coords[] = [
+export const neighborsVector: Point[] = [
 	{ x: -1, y: -1 },
 	{ x: -1, y: 0 },
 	{ x: -1, y: 1 },
@@ -23,7 +23,7 @@ export const neighborsVector: Coords[] = [
 	{ x: 1, y: 1 },
 ];
 
-export const directNeighborsVector: Coords[] = [
+export const directNeighborsVector: Point[] = [
 	{ x: -1, y: 0 },
 	{ x: 0, y: -1 },
 	{ x: 0, y: 1 },

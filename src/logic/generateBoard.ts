@@ -1,4 +1,4 @@
-import { neighborsVector, type Block } from '../utils/constants';
+import { neighborsVector, type Block, type Point } from '../utils/constants';
 
 export const generateBoard = (xSize: number, ySize: number, bombsCount: number) => {
 	if (xSize < 1 || ySize < 1) {
@@ -13,6 +13,7 @@ export const generateBoard = (xSize: number, ySize: number, bombsCount: number) 
 
 	// generate empty xSize x ySize board
 	const board: Block[][] = [];
+	const bombsCoords: Point[] = [];
 
 	for (let x = 0; x < xSize; x++) {
 		const rowArray: Block[] = [];
@@ -39,6 +40,7 @@ export const generateBoard = (xSize: number, ySize: number, bombsCount: number) 
 		} while (board[randomX][randomY].hasBomb);
 
 		board[randomX][randomY].hasBomb = true;
+		bombsCoords.push({ x: randomX, y: randomY });
 	}
 
 	// create labels for blocks (how many bombs are around each of them)
@@ -65,5 +67,5 @@ export const generateBoard = (xSize: number, ySize: number, bombsCount: number) 
 		}
 	}
 
-	return board;
+	return { board, bombsCoords };
 };
