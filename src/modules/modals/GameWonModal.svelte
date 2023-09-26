@@ -7,7 +7,7 @@
 </script>
 
 <Modal title="GRATULACJE!" bind:isOpen={isModalOpen}>
-	<h3>Wygrałeś B)</h3>
+	<h2>Wygrałeś B)</h2>
 
-	<h4>Czas gry: {$gameTime} sek.</h4>
+	<h3>Czas gry: {$gameTime} sek.</h3>
 </Modal>

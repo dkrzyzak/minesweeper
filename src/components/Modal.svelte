@@ -93,4 +93,11 @@
 	.modal-title-close img {
 		width: 80%;
 	}
+
+	.modal-body {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding-top: 60px;
+	}
 </style>
